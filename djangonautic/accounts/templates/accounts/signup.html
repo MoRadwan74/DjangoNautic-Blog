@@ -2,4 +2,11 @@
 
 {% block content %}
     <h1>Signup</h1>
+    <form class="site-form" action="/accounts/signup/" method="post">
+        <!--We need to pass a token certificate with the request to the server-->
+        {% csrf_token %}
+        <!--Output form fields which are baked in Django forms imported in view.py-->
+        {{ form }}
+        <input type="submit" value="Signup"/>
+    </form>
 {% endblock %}
