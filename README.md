@@ -1,2 +1,2 @@
 # DjangoNautic-Blog
-Building a blog using Django framework.
+Building a blog of articles and users using Django framework.
