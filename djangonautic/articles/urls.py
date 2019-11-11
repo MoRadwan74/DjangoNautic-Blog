@@ -11,7 +11,9 @@ app_name = 'articles'
 
 urlpatterns = [
     path('', views.article_list, name="list"),   # This is for the Home page.
+    path('create/', views.article_create, name="create"),
     path('<slug:slug>/', views.article_detail, name="detail"),
+    # We make create article above article detail because if we make it below, django may think that the word 'create' is a pre-made slug and it will try to fetch it.
 ]
 
 

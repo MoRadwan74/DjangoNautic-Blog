@@ -43,7 +43,7 @@ You will see inside your app, a folder which is called "migrations" which contai
 5- Safely, we can now migrate these data (our model) like so,
 >> In the Terminal: python manage.py migrate
 
-<<< NOTE >>> Each time we change the model we need to issue the commands "makemigrations" and "migrate".
+<<< NOTE >>> Each time we add a model or change an existing one we need to issue the commands "makemigrations" and "migrate".
 """""
 
 from django.db import models
@@ -59,11 +59,11 @@ class Article(models.Model):
     # add in Thumbnail, author
     thumb = models.ImageField(default='default.png', blank=True)
 
-    def __str__(self):  # self is like this
+    def __str__(self):  # self is like this in JS
         return self.title
 
     def snippet(self):
-        return self.body[:50]   # This means just take the first characters from 0 to 50
+        return self.body[:50] + '...'   # This means just take the first characters from 0 to 50
 
 """""
 $ ORM Section:
@@ -81,7 +81,7 @@ $ ORM Section:
 - Let's say we want to retreive all of the objects inside the table,
 >> Article.objects.all()
 
-- This will output something like this "<QuerySet []>" which indicates there's no objects.
+- This will output "<QuerySet []>" which indicates there's no objects.
 
 - So let's create a new object of Article
 >> article = Article()
@@ -94,7 +94,7 @@ $ ORM Section:
 - If we try to output it like that >> "article.title" we get "Hello World".
 
 - Then we need to save this to the database so easily we type,
->> articles.save()
+>> article.save()
 
 - Now if we try to retrieve all the objects of Article class again by typing,
 >> Article.objects.all()
