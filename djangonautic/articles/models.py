@@ -43,11 +43,11 @@ You will see inside your app, a folder which is called "migrations" which contai
 5- Safely, we can now migrate these data (our model) like so,
 >> In the Terminal: python manage.py migrate
 
-<<< NOTE >>> Each time we change the model we need to issue the commands "makemigrations" and "migrate".
+<<< NOTE >>> Each time we add a model or change an existing one we need to issue the commands "makemigrations" and "migrate".
 """""
 
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Article(models.Model):
@@ -58,12 +58,15 @@ class Article(models.Model):
     # When an article is created, auto_now_add will automatically add the time then to the date field.
     # add in Thumbnail, author
     thumb = models.ImageField(default='default.png', blank=True)
-
-    def __str__(self):  # self is like this
+    author = models.ForeignKey(User, on_delete = models.CASCADE, default=None)
+    # We add the user as a foreign key for our model so that each we can get the user who created this modal instance (AKA, article).
+    # on_delete = models.CASCADE is used so that when the referenced object is deleted(User in this case), also delete the objects that have references to it (Articles in this case).
+    # Also, don't forget to migrate any changes you made on this model.
+    def __str__(self):  # self is like this in JS
         return self.title
 
     def snippet(self):
-        return self.body[:50]   # This means just take the first characters from 0 to 50
+        return self.body[:50] + '...'   # This means just take the first characters from 0 to 50
 
 """""
 $ ORM Section:
@@ -81,7 +84,7 @@ $ ORM Section:
 - Let's say we want to retreive all of the objects inside the table,
 >> Article.objects.all()
 
-- This will output something like this "<QuerySet []>" which indicates there's no objects.
+- This will output "<QuerySet []>" which indicates there's no objects.
 
 - So let's create a new object of Article
 >> article = Article()
@@ -94,7 +97,7 @@ $ ORM Section:
 - If we try to output it like that >> "article.title" we get "Hello World".
 
 - Then we need to save this to the database so easily we type,
->> articles.save()
+>> article.save()
 
 - Now if we try to retrieve all the objects of Article class again by typing,
 >> Article.objects.all()

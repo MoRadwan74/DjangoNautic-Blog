@@ -1,0 +1,15 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <h1>Log in</h1>
+    <form class="site-form" action="{% url 'accounts:login' %}" method="post">
+        <!--We need to pass a token certificate with the request to the server-->
+        {% csrf_token %}
+        <!--Output form fields which are baked in Django forms imported in view.py-->
+        {{ form }}
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{request.GET.next}}">
+        {% endif %}
+        <input type="submit" value="Login"/>
+    </form>
+{% endblock %}

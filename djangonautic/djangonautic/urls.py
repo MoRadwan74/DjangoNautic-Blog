@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns     # This helps Django serve static files.
 from django.conf.urls.static import static
 from django.conf import settings
+from articles import views as article_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,7 +14,7 @@ urlpatterns = [
     path('articles/', include('articles.urls')),
     path('accounts/', include('accounts.urls')),
     path('about/', views.about),     # $ means that this must be the end of the string. Ended with /about/.
-    path('', views.homepage),   # This is for the Home page.
+    path('', article_views.article_list, name="home"),   # This is for the Home page.
 ]
 
 urlpatterns += staticfiles_urlpatterns()
