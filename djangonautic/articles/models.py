@@ -47,7 +47,7 @@ You will see inside your app, a folder which is called "migrations" which contai
 """""
 
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Article(models.Model):
@@ -58,7 +58,10 @@ class Article(models.Model):
     # When an article is created, auto_now_add will automatically add the time then to the date field.
     # add in Thumbnail, author
     thumb = models.ImageField(default='default.png', blank=True)
-
+    author = models.ForeignKey(User, on_delete = models.CASCADE, default=None)
+    # We add the user as a foreign key for our model so that each we can get the user who created this modal instance (AKA, article).
+    # on_delete = models.CASCADE is used so that when the referenced object is deleted(User in this case), also delete the objects that have references to it (Articles in this case).
+    # Also, don't forget to migrate any changes you made on this model.
     def __str__(self):  # self is like this in JS
         return self.title
 

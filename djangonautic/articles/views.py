@@ -19,9 +19,13 @@ def article_detail(request, slug):
 @login_required(login_url="/accounts/login")
 def article_create(request):
     if request.method == 'POST':
-        form = forms.CreateArticle(request.POST, request.FILES)
+        form = forms.CreateArticle(request.POST, request.FILES) # Uploaded files doesn't come with the post request.
         if form.is_valid():
             # Save article to database
+            article_instance = form.save(commit=False)
+            article_instance.author = request.user # Store the current logged user in the author field inside Article model.
+            # commit = False, means hang on a minute. The form will be saved but don't commit just yet as We want to get this instance, then do something with it then save it.
+            article_instance.save()
             return redirect('articles:list')
     else:
         form = forms.CreateArticle()
